@@ -1,4 +1,5 @@
-from ls import list_dir, main
+from ls import list_dir, main 
+import pytest
 
 
 def test_list_dir_returns_files_in_current_folder(tmp_path):
@@ -21,3 +22,7 @@ def test_list_dir_returns_empty_list_for_empty_folder(tmp_path):
     result = list_dir(str(tmp_path))
 
     assert result == []
+
+def test_list_dir_raises_clear_error_for_missing_folder():
+    with pytest.raises(FileNotFoundError, match="No such directory"):
+        list_dir("olmayan_klasor")
