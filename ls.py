@@ -3,6 +3,8 @@ import sys
 
 
 def list_dir(path="."):
+    if not os.path.isdir(path):
+        raise FileNotFoundError(f"No such directory: '{path}'")
     return os.listdir(path)
 
 
