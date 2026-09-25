@@ -16,3 +16,8 @@ def test_main_prints_files(tmp_path, capsys):
 
     captured = capsys.readouterr()
     assert "c.txt" in captured.out
+
+def test_list_dir_returns_empty_list_for_empty_folder(tmp_path):
+    result = list_dir(str(tmp_path))
+
+    assert result == []
