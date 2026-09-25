@@ -5,7 +5,7 @@ import sys
 def list_dir(path="."):
     if not os.path.isdir(path):
         raise FileNotFoundError(f"No such directory: '{path}'")
-    return os.listdir(path)
+    return [name for name in os.listdir(path) if not name.startswith(".")]
 
 
 def main(args=None):
