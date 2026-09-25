@@ -26,3 +26,11 @@ def test_list_dir_returns_empty_list_for_empty_folder(tmp_path):
 def test_list_dir_raises_clear_error_for_missing_folder():
     with pytest.raises(FileNotFoundError, match="No such directory"):
         list_dir("olmayan_klasor")
+
+def test_list_dir_hides_hidden_files_by_default(tmp_path):
+    (tmp_path / "visible.txt").touch()
+    (tmp_path / ".hidden.txt").touch()
+
+    result = list_dir(str(tmp_path))
+
+    assert result == ["visible.txt"]
