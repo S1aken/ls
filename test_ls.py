@@ -40,3 +40,8 @@ def test_list_dir_has_type_hints():
     hints = get_type_hints(list_dir)
 
     assert hints == {"path": str, "return": list[str]}
+
+def test_main_has_type_hints():
+    hints = get_type_hints(main)
+
+    assert hints == {"args": list[str] | None, "return": type(None)}
