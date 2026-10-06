@@ -69,3 +69,11 @@ def test_list_dir_files_preset_shows_only_files(tmp_path):
     result = list_dir(str(tmp_path), FilterPreset.FILES)
 
     assert result == ["a.txt"]
+
+def test_list_dir_dirs_preset_shows_only_folders(tmp_path):
+    (tmp_path / "a.txt").touch()
+    (tmp_path / "folder").mkdir()
+
+    result = list_dir(str(tmp_path), FilterPreset.DIRS)
+
+    assert result == ["folder"]
