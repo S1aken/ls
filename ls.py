@@ -8,7 +8,7 @@ def list_dir(path: str = ".") -> list[str]:
     return [name for name in os.listdir(path) if not name.startswith(".")]
 
 
-def main(args=None):
+def main(args: list[str] | None = None) -> None:
     args = args or sys.argv[1:]
     path = args[0] if args else "."
     for name in sorted(list_dir(path)):
