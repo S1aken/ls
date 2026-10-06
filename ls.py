@@ -34,6 +34,7 @@ FILTERS: dict[FilterPreset, Filter] = {
 SORT_KEYS: dict[SortPreset, SortKey] = {
     SortPreset.NAME: lambda path, name: name,
     SortPreset.SIZE: lambda path, name: os.path.getsize(os.path.join(path, name)),
+    SortPreset.DATE: lambda path, name: os.path.getmtime(os.path.join(path, name)),
 }
 
 
