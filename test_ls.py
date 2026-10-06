@@ -163,3 +163,12 @@ def test_format_name_color_paints_folders_blue(tmp_path):
 
     assert file_result == "a.txt"
     assert dir_result == "\033[34mfolder\033[0m"
+
+def test_main_style_option_selects_preset(tmp_path, capsys):
+    (tmp_path / "a.txt").touch()
+    (tmp_path / "folder").mkdir()
+
+    main([str(tmp_path), "--style", "icons"])
+
+    captured = capsys.readouterr()
+    assert captured.out == "📄 a.txt\n📁 folder\n"
