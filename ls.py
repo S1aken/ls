@@ -8,6 +8,10 @@ class FilterPreset(str, Enum):
     FILES = "files"
     DIRS = "dirs"
 
+class SortPreset(str, Enum):
+    NAME = "name"
+    SIZE = "size"
+    DATE = "date"
 
 def list_dir(
     path: str = ".", preset: FilterPreset = FilterPreset.VISIBLE
