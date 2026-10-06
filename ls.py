@@ -20,6 +20,8 @@ def list_dir(
     visible = [name for name in names if not name.startswith(".")]
     if preset == FilterPreset.FILES:
         return [name for name in visible if os.path.isfile(os.path.join(path, name))]
+    if preset == FilterPreset.DIRS:
+        return [name for name in visible if os.path.isdir(os.path.join(path, name))]
     return visible
 
 
