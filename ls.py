@@ -119,13 +119,19 @@ def main(args: list[str] | None = None) -> None:
         choices=[preset.value for preset in StylePreset],
         default=StylePreset.PLAIN.value,
     )
+    parser.add_argument(
+        "--color",
+        choices=[preset.value for preset in ColorPreset],
+        default=ColorPreset.BLUE.value,
+    )
     parsed = parser.parse_args(args)
     style = StylePreset(parsed.style)
+    color = ColorPreset(parsed.color)
     names = list_dir(
         parsed.path, FilterPreset(parsed.filter), SortPreset(parsed.sort)
     )
     for name in names:
-        print(format_name(parsed.path, name, style))
+        print(format_name(parsed.path, name, style, color))
 
 
 if __name__ == "__main__":
