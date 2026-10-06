@@ -188,3 +188,12 @@ def test_color_preset_has_expected_values():
         "green",
         "yellow",
     ]
+
+def test_format_name_color_uses_selected_color(tmp_path):
+    (tmp_path / "folder").mkdir()
+
+    result = format_name(
+        str(tmp_path), "folder", StylePreset.COLOR, ColorPreset.RED
+    )
+
+    assert result == "\033[31mfolder\033[0m"
