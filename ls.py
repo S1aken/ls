@@ -59,8 +59,16 @@ def main(args: list[str] | None = None) -> None:
         choices=[preset.value for preset in FilterPreset],
         default=FilterPreset.VISIBLE.value,
     )
+    parser.add_argument(
+        "--sort",
+        choices=[preset.value for preset in SortPreset],
+        default=SortPreset.NAME.value,
+    )
     parsed = parser.parse_args(args)
-    for name in list_dir(parsed.path, FilterPreset(parsed.filter)):
+    names = list_dir(
+        parsed.path, FilterPreset(parsed.filter), SortPreset(parsed.sort)
+    )
+    for name in names:
         print(name)
 
 
