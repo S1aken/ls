@@ -1,6 +1,8 @@
 import argparse
 import os
+from collections.abc import Callable
 from enum import Enum
+
 
 class FilterPreset(str, Enum):
     VISIBLE = "visible"
@@ -8,25 +10,44 @@ class FilterPreset(str, Enum):
     FILES = "files"
     DIRS = "dirs"
 
+
 class SortPreset(str, Enum):
     NAME = "name"
     SIZE = "size"
     DATE = "date"
 
+
+Filter = Callable[[str, str], bool]
+SortKey = Callable[[str, str], str | float]
+
+FILTERS: dict[FilterPreset, Filter] = {
+    FilterPreset.VISIBLE: lambda path, name: not name.startswith("."),
+    FilterPreset.ALL: lambda path, name: True,
+    FilterPreset.FILES: lambda path, name: (
+        not name.startswith(".") and os.path.isfile(os.path.join(path, name))
+    ),
+    FilterPreset.DIRS: lambda path, name: (
+        not name.startswith(".") and os.path.isdir(os.path.join(path, name))
+    ),
+}
+
+SORT_KEYS: dict[SortPreset, SortKey] = {
+    SortPreset.NAME: lambda path, name: name,
+    SortPreset.SIZE: lambda path, name: os.path.getsize(os.path.join(path, name)),
+}
+
+
 def list_dir(
-    path: str = ".", preset: FilterPreset = FilterPreset.VISIBLE
+    path: str = ".",
+    preset: FilterPreset = FilterPreset.VISIBLE,
+    sort: SortPreset = SortPreset.NAME,
 ) -> list[str]:
     if not os.path.isdir(path):
         raise FileNotFoundError(f"No such directory: '{path}'")
-    names = os.listdir(path)
-    if preset == FilterPreset.ALL:
-        return names
-    visible = [name for name in names if not name.startswith(".")]
-    if preset == FilterPreset.FILES:
-        return [name for name in visible if os.path.isfile(os.path.join(path, name))]
-    if preset == FilterPreset.DIRS:
-        return [name for name in visible if os.path.isdir(os.path.join(path, name))]
-    return visible
+    keep = FILTERS[preset]
+    key = SORT_KEYS[sort]
+    names = [name for name in os.listdir(path) if keep(path, name)]
+    return sorted(names, key=lambda name: key(path, name))
 
 
 def main(args: list[str] | None = None) -> None:
@@ -38,7 +59,7 @@ def main(args: list[str] | None = None) -> None:
         default=FilterPreset.VISIBLE.value,
     )
     parsed = parser.parse_args(args)
-    for name in sorted(list_dir(parsed.path, FilterPreset(parsed.filter))):
+    for name in list_dir(parsed.path, FilterPreset(parsed.filter)):
         print(name)
 
 
