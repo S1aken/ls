@@ -46,8 +46,15 @@ SORT_KEYS: dict[SortPreset, SortKey] = {
 
 Formatter = Callable[[str, str], str]
 
+
+def with_icon(path: str, name: str) -> str:
+    icon = "📁" if os.path.isdir(os.path.join(path, name)) else "📄"
+    return f"{icon} {name}"
+
+
 FORMATTERS: dict[StylePreset, Formatter] = {
     StylePreset.PLAIN: lambda path, name: name,
+    StylePreset.ICONS: with_icon,
 }
 
 
