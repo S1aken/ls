@@ -120,3 +120,12 @@ def test_list_dir_date_sort_orders_oldest_first(tmp_path):
     result = list_dir(str(tmp_path), sort=SortPreset.DATE)
 
     assert result == ["old.txt", "new.txt"]
+
+def test_main_sort_option_selects_preset(tmp_path, capsys):
+    (tmp_path / "big.txt").write_text("x" * 100)
+    (tmp_path / "small.txt").write_text("x")
+
+    main([str(tmp_path), "--sort", "size"])
+
+    captured = capsys.readouterr()
+    assert captured.out == "small.txt\nbig.txt\n"
