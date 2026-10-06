@@ -2,7 +2,7 @@ import os
 import sys
 
 
-def list_dir(path="."):
+def list_dir(path: str = ".") -> list[str]:
     if not os.path.isdir(path):
         raise FileNotFoundError(f"No such directory: '{path}'")
     return [name for name in os.listdir(path) if not name.startswith(".")]
