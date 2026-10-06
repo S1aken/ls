@@ -36,11 +36,25 @@ FILTERS: dict[FilterPreset, Filter] = {
     ),
 }
 
+
 SORT_KEYS: dict[SortPreset, SortKey] = {
     SortPreset.NAME: lambda path, name: name,
     SortPreset.SIZE: lambda path, name: os.path.getsize(os.path.join(path, name)),
     SortPreset.DATE: lambda path, name: os.path.getmtime(os.path.join(path, name)),
 }
+
+
+Formatter = Callable[[str, str], str]
+
+FORMATTERS: dict[StylePreset, Formatter] = {
+    StylePreset.PLAIN: lambda path, name: name,
+}
+
+
+def format_name(
+    path: str, name: str, style: StylePreset = StylePreset.PLAIN
+) -> str:
+    return FORMATTERS[style](path, name)
 
 
 def list_dir(
