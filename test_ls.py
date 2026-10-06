@@ -77,3 +77,12 @@ def test_list_dir_dirs_preset_shows_only_folders(tmp_path):
     result = list_dir(str(tmp_path), FilterPreset.DIRS)
 
     assert result == ["folder"]
+
+def test_main_filter_option_selects_preset(tmp_path, capsys):
+    (tmp_path / "a.txt").touch()
+    (tmp_path / "folder").mkdir()
+
+    main([str(tmp_path), "--filter", "dirs"])
+
+    captured = capsys.readouterr()
+    assert captured.out == "folder\n"
