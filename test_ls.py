@@ -1,4 +1,4 @@
-from ls import FilterPreset, SortPreset, list_dir, main 
+from ls import FilterPreset, SortPreset, StylePreset, list_dir, main 
 from typing import get_type_hints
 import pytest
 import os
@@ -129,3 +129,10 @@ def test_main_sort_option_selects_preset(tmp_path, capsys):
 
     captured = capsys.readouterr()
     assert captured.out == "small.txt\nbig.txt\n"
+
+def test_style_preset_has_expected_values():
+    assert [preset.value for preset in StylePreset] == [
+        "plain",
+        "color",
+        "icons",
+    ]
