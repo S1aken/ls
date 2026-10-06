@@ -93,3 +93,12 @@ def test_sort_preset_has_expected_values():
         "size",
         "date",
     ]
+
+def test_list_dir_size_sort_orders_smallest_first(tmp_path):
+    (tmp_path / "big.txt").write_text("x" * 100)
+    (tmp_path / "mid.txt").write_text("x" * 10)
+    (tmp_path / "small.txt").write_text("x")
+
+    result = list_dir(str(tmp_path), sort=SortPreset.SIZE)
+
+    assert result == ["small.txt", "mid.txt", "big.txt"]
