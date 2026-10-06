@@ -1,4 +1,4 @@
-from ls import FilterPreset, SortPreset, StylePreset, list_dir, main 
+from ls import FilterPreset, SortPreset, format_name, StylePreset, list_dir, main 
 from typing import get_type_hints
 import pytest
 import os
@@ -136,3 +136,10 @@ def test_style_preset_has_expected_values():
         "color",
         "icons",
     ]
+
+def test_format_name_plain_returns_name_unchanged(tmp_path):
+    (tmp_path / "a.txt").touch()
+
+    result = format_name(str(tmp_path), "a.txt", StylePreset.PLAIN)
+
+    assert result == "a.txt"
