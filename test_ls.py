@@ -1,4 +1,12 @@
-from ls import FilterPreset, SortPreset, format_name, StylePreset, list_dir, main 
+from ls import (
+    ColorPreset,
+    FilterPreset,
+    SortPreset,
+    StylePreset,
+    format_name,
+    list_dir,
+    main,
+)
 from typing import get_type_hints
 import pytest
 import os
@@ -172,3 +180,11 @@ def test_main_style_option_selects_preset(tmp_path, capsys):
 
     captured = capsys.readouterr()
     assert captured.out == "📄 a.txt\n📁 folder\n"
+
+def test_color_preset_has_expected_values():
+    assert [preset.value for preset in ColorPreset] == [
+        "blue",
+        "red",
+        "green",
+        "yellow",
+    ]
