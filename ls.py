@@ -52,8 +52,15 @@ def with_icon(path: str, name: str) -> str:
     return f"{icon} {name}"
 
 
+def with_color(path: str, name: str) -> str:
+    if os.path.isdir(os.path.join(path, name)):
+        return f"\033[34m{name}\033[0m"
+    return name
+
+
 FORMATTERS: dict[StylePreset, Formatter] = {
     StylePreset.PLAIN: lambda path, name: name,
+    StylePreset.COLOR: with_color,
     StylePreset.ICONS: with_icon,
 }
 
