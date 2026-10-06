@@ -1,5 +1,5 @@
+import argparse
 import os
-import sys
 from enum import Enum
 
 class FilterPreset(str, Enum):
@@ -26,9 +26,15 @@ def list_dir(
 
 
 def main(args: list[str] | None = None) -> None:
-    args = args or sys.argv[1:]
-    path = args[0] if args else "."
-    for name in sorted(list_dir(path)):
+    parser = argparse.ArgumentParser(prog="myls")
+    parser.add_argument("path", nargs="?", default=".")
+    parser.add_argument(
+        "--filter",
+        choices=[preset.value for preset in FilterPreset],
+        default=FilterPreset.VISIBLE.value,
+    )
+    parsed = parser.parse_args(args)
+    for name in sorted(list_dir(parsed.path, FilterPreset(parsed.filter))):
         print(name)
 
 
