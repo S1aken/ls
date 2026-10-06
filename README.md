@@ -1,8 +1,8 @@
 # myls
 
-Bir klasördeki dosyaları listeleyen, filtreleme, sıralama ve renk/ikon seçenekleri olan basit bir komut satırı aracı.
+A simple command-line tool that lists the files in a folder, with options for filtering, sorting, and colored or icon output.
 
-## Kurulum
+## Installation
 
 ```bash
 git clone https://github.com/S1aken/ls.git
@@ -10,117 +10,117 @@ cd ls
 pip install -e .
 ```
 
-Kurulumdan sonra terminalde `myls` komutu kullanılabilir.
+After installing, the `myls` command is available in your terminal.
 
-## Hızlı başlangıç
+## Quick start
 
 ```bash
-myls                  # bulunduğun klasörü listeler
-myls C:\Users\TR      # verdiğin klasörü listeler
+myls                      # list the current folder
+myls /path/to/folder      # list a specific folder
 ```
 
-Hiçbir seçenek vermezsen gizli dosyalar gösterilmez, liste isme göre sıralanır, çıktı düz yazı olur.
+With no options, hidden files are not shown, the list is sorted by name, and the output is plain text.
 
-## Seçenekler
+## Options
 
-| Seçenek | Değerler | Varsayılan | Ne yapar |
+| Option | Values | Default | What it does |
 |---|---|---|---|
-| `--filter` | `visible`, `all`, `files`, `dirs` | `visible` | Neyin listeleneceğini seçer |
-| `--sort` | `name`, `size`, `date` | `name` | Sıralama ölçütünü seçer |
-| `--style` | `plain`, `color`, `icons` | `plain` | Çıktının görünümünü seçer |
-| `--color` | `blue`, `red`, `green`, `yellow` | `blue` | `--style color` için rengi seçer |
+| `--filter` | `visible`, `all`, `files`, `dirs` | `visible` | Chooses what gets listed |
+| `--sort` | `name`, `size`, `date` | `name` | Chooses the sort criterion |
+| `--style` | `plain`, `color`, `icons` | `plain` | Chooses how the output looks |
+| `--color` | `blue`, `red`, `green`, `yellow` | `blue` | Chooses the color used by `--style color` |
 
-### `--filter` değerleri
+### `--filter` values
 
-| Değer | Sonuç |
+| Value | Result |
 |---|---|
-| `visible` | Gizli olmayan her şey (dosya + klasör) |
-| `all` | Gizli dosyalar (`.git` gibi) dahil her şey |
-| `files` | Sadece dosyalar |
-| `dirs` | Sadece klasörler |
+| `visible` | Everything that is not hidden (files and folders) |
+| `all` | Everything, including hidden items such as `.git` |
+| `files` | Files only |
+| `dirs` | Folders only |
 
-### `--sort` değerleri
+### `--sort` values
 
-| Değer | Sonuç |
+| Value | Result |
 |---|---|
-| `name` | İsme göre, A'dan Z'ye |
-| `size` | Boyuta göre, küçükten büyüğe |
-| `date` | Değiştirilme tarihine göre, eskiden yeniye |
+| `name` | By name, A to Z |
+| `size` | By size, smallest to largest |
+| `date` | By last modified time, oldest to newest |
 
-### `--style` değerleri
+### `--style` values
 
-| Değer | Sonuç |
+| Value | Result |
 |---|---|
-| `plain` | Düz yazı |
-| `color` | Klasörler renkli, dosyalar normal |
-| `icons` | Klasörlerin başında 📁, dosyaların başında 📄 |
+| `plain` | Plain text |
+| `color` | Folders are colored, files stay in the default color |
+| `icons` | 📁 before folders, 📄 before files |
 
-## Örnekler
+## Examples
 
-Her şeyi göster, gizli dosyalar dahil:
+Show everything, including hidden items:
 
 ```bash
 myls --filter all
 ```
 
-Sadece klasörleri göster:
+Show folders only:
 
 ```bash
 myls --filter dirs
 ```
 
-Sadece dosyaları boyuta göre sırala:
+Show files only, sorted by size:
 
 ```bash
 myls --filter files --sort size
 ```
 
-En son değiştirilen dosya en altta olsun:
+Put the most recently modified file last:
 
 ```bash
 myls --filter files --sort date
 ```
 
-Klasörleri kırmızı göster:
+Show folders in red:
 
 ```bash
 myls --style color --color red
 ```
 
-İkonlu liste:
+Show a list with icons:
 
 ```bash
 myls --style icons
 ```
 
-Hepsini birlikte kullan: sadece dosyalar, boyuta göre sıralı, ikonlu:
+Combine everything: files only, sorted by size, with icons:
 
 ```bash
 myls --filter files --sort size --style icons
 ```
 
-Başka bir klasörde, gizliler dahil, tarihe göre sıralı:
+List another folder, including hidden items, sorted by date:
 
 ```bash
-myls C:\Users\TR\Desktop --filter all --sort date
+myls /path/to/folder --filter all --sort date
 ```
 
-## İyi bilinmesi gerekenler
+## Good to know
 
-- Seçeneklerin yazılma sırası önemli değildir. `myls --sort size --filter files` ile `myls --filter files --sort size` aynı sonucu verir.
-- `--color` sadece `--style color` ile birlikte etkilidir. `--style icons` ile kullanılırsa yok sayılır.
-- `--style color` yalnızca klasörleri boyar, dosyalar normal renkte kalır.
-- Klasörlerin boyutu, içindeki dosyaların toplamı değildir. Klasörün kendi kayıt boyutudur (Windows'ta genelde 0 görünür). `--sort size` en anlamlı sonucu `--filter files` ile verir.
-- Var olmayan bir klasör verirsen şu hatayı alırsın: `No such directory: '...'`.
-- Geçersiz bir değer yazarsan (örneğin `--sort weight`) araç seçenekleri listeleyen bir hata mesajı verir.
+- The order of the options does not matter. `myls --sort size --filter files` gives the same result as `myls --filter files --sort size`.
+- `--color` only has an effect together with `--style color`. With `--style icons` it is ignored.
+- `--style color` only colors folders. Files stay in the default color.
+- A folder's size is not the total size of its contents. It is the size of the folder entry itself (often shown as 0 on Windows). `--sort size` gives the most meaningful result together with `--filter files`.
+- If you pass a folder that does not exist, you get this error: `No such directory: '...'`.
+- If you pass an invalid value (for example `--sort weight`), the tool prints an error that lists the valid choices.
 
-## Yardım
+## Help
 
 ```bash
 myls --help
 ```
 
-## Testleri çalıştırma
+## Running the tests
 
 ```bash
 pip install pytest
