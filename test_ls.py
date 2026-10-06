@@ -53,3 +53,11 @@ def test_filter_preset_has_expected_values():
         "files",
         "dirs",
     ]
+
+def test_list_dir_all_preset_shows_hidden_files(tmp_path):
+    (tmp_path / "visible.txt").touch()
+    (tmp_path / ".hidden.txt").touch()
+
+    result = list_dir(str(tmp_path), FilterPreset.ALL)
+
+    assert sorted(result) == [".hidden.txt", "visible.txt"]
