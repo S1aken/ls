@@ -39,7 +39,7 @@ def test_list_dir_hides_hidden_files_by_default(tmp_path):
 def test_list_dir_has_type_hints():
     hints = get_type_hints(list_dir)
 
-    assert hints == {"path": str, "return": list[str]}
+    assert hints == {"path": str, "preset": FilterPreset, "return": list[str]}
 
 def test_main_has_type_hints():
     hints = get_type_hints(main)
