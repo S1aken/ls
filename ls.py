@@ -10,13 +10,17 @@ class FilterPreset(str, Enum):
 
 
 def list_dir(
-        path: str = ".", preset: FilterPreset = FilterPreset.VISIBLE) -> list[str]:
+    path: str = ".", preset: FilterPreset = FilterPreset.VISIBLE
+) -> list[str]:
     if not os.path.isdir(path):
         raise FileNotFoundError(f"No such directory: '{path}'")
     names = os.listdir(path)
     if preset == FilterPreset.ALL:
         return names
-    return [name for name in os.listdir(path) if not name.startswith(".")]
+    visible = [name for name in names if not name.startswith(".")]
+    if preset == FilterPreset.FILES:
+        return [name for name in visible if os.path.isfile(os.path.join(path, name))]
+    return visible
 
 
 def main(args: list[str] | None = None) -> None:
