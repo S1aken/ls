@@ -61,3 +61,11 @@ def test_list_dir_all_preset_shows_hidden_files(tmp_path):
     result = list_dir(str(tmp_path), FilterPreset.ALL)
 
     assert sorted(result) == [".hidden.txt", "visible.txt"]
+
+def test_list_dir_files_preset_shows_only_files(tmp_path):
+    (tmp_path / "a.txt").touch()
+    (tmp_path / "folder").mkdir()
+
+    result = list_dir(str(tmp_path), FilterPreset.FILES)
+
+    assert result == ["a.txt"]
