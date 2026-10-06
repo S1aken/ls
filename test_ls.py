@@ -1,4 +1,4 @@
-from ls import FilterPreset, list_dir, main 
+from ls import FilterPreset, SortPreset, list_dir, main 
 from typing import get_type_hints
 import pytest
 
@@ -86,3 +86,10 @@ def test_main_filter_option_selects_preset(tmp_path, capsys):
 
     captured = capsys.readouterr()
     assert captured.out == "folder\n"
+
+def test_sort_preset_has_expected_values():
+    assert [preset.value for preset in SortPreset] == [
+        "name",
+        "size",
+        "date",
+    ]
