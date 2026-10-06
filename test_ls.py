@@ -1,4 +1,5 @@
 from ls import list_dir, main 
+from typing import get_type_hints
 import pytest
 
 
@@ -34,3 +35,8 @@ def test_list_dir_hides_hidden_files_by_default(tmp_path):
     result = list_dir(str(tmp_path))
 
     assert result == ["visible.txt"]
+
+def test_list_dir_has_type_hints():
+    hints = get_type_hints(list_dir)
+
+    assert hints == {"path": str, "return": list[str]}
