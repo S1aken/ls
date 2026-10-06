@@ -143,3 +143,13 @@ def test_format_name_plain_returns_name_unchanged(tmp_path):
     result = format_name(str(tmp_path), "a.txt", StylePreset.PLAIN)
 
     assert result == "a.txt"
+
+def test_format_name_icons_adds_icon_by_type(tmp_path):
+    (tmp_path / "a.txt").touch()
+    (tmp_path / "folder").mkdir()
+
+    file_result = format_name(str(tmp_path), "a.txt", StylePreset.ICONS)
+    dir_result = format_name(str(tmp_path), "folder", StylePreset.ICONS)
+
+    assert file_result == "📄 a.txt"
+    assert dir_result == "📁 folder"
