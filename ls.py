@@ -51,31 +51,41 @@ SORT_KEYS: dict[SortPreset, SortKey] = {
 }
 
 
-Formatter = Callable[[str, str], str]
+Formatter = Callable[[str, str, ColorPreset], str]
+
+COLOR_CODES: dict[ColorPreset, str] = {
+    ColorPreset.BLUE: "34",
+    ColorPreset.RED: "31",
+    ColorPreset.GREEN: "32",
+    ColorPreset.YELLOW: "33",
+}
 
 
-def with_icon(path: str, name: str) -> str:
+def with_icon(path: str, name: str, color: ColorPreset) -> str:
     icon = "📁" if os.path.isdir(os.path.join(path, name)) else "📄"
     return f"{icon} {name}"
 
 
-def with_color(path: str, name: str) -> str:
+def with_color(path: str, name: str, color: ColorPreset) -> str:
     if os.path.isdir(os.path.join(path, name)):
-        return f"\033[34m{name}\033[0m"
+        return f"\033[{COLOR_CODES[color]}m{name}\033[0m"
     return name
 
 
 FORMATTERS: dict[StylePreset, Formatter] = {
-    StylePreset.PLAIN: lambda path, name: name,
+    StylePreset.PLAIN: lambda path, name, color: name,
     StylePreset.COLOR: with_color,
     StylePreset.ICONS: with_icon,
 }
 
 
 def format_name(
-    path: str, name: str, style: StylePreset = StylePreset.PLAIN
+    path: str,
+    name: str,
+    style: StylePreset = StylePreset.PLAIN,
+    color: ColorPreset = ColorPreset.BLUE,
 ) -> str:
-    return FORMATTERS[style](path, name)
+    return FORMATTERS[style](path, name, color)
 
 
 def list_dir(
