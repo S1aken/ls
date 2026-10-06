@@ -1,6 +1,7 @@
 from ls import FilterPreset, SortPreset, list_dir, main 
 from typing import get_type_hints
 import pytest
+import os
 
 
 def test_list_dir_returns_files_in_current_folder(tmp_path):
@@ -107,3 +108,15 @@ def test_list_dir_size_sort_orders_smallest_first(tmp_path):
     result = list_dir(str(tmp_path), sort=SortPreset.SIZE)
 
     assert result == ["small.txt", "mid.txt", "big.txt"]
+
+def test_list_dir_date_sort_orders_oldest_first(tmp_path):
+    old = tmp_path / "old.txt"
+    new = tmp_path / "new.txt"
+    old.touch()
+    new.touch()
+    os.utime(old, (1_000_000_000, 1_000_000_000))
+    os.utime(new, (2_000_000_000, 2_000_000_000))
+
+    result = list_dir(str(tmp_path), sort=SortPreset.DATE)
+
+    assert result == ["old.txt", "new.txt"]
