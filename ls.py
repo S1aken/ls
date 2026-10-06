@@ -1,7 +1,14 @@
 import os
 import sys
+from enum import Enum
 
+class FilterPreset(str, Enum):
+    VISIBLE = "visible"
+    ALL = "all"
+    FILES = "files"
+    DIRS = "dirs"
 
+    
 def list_dir(path: str = ".") -> list[str]:
     if not os.path.isdir(path):
         raise FileNotFoundError(f"No such directory: '{path}'")
