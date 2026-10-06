@@ -22,6 +22,13 @@ class StylePreset(str, Enum):
     ICONS = "icons"
 
 
+class ColorPreset(str, Enum):
+    BLUE = "blue"
+    RED = "red"
+    GREEN = "green"
+    YELLOW = "yellow"
+
+
 Filter = Callable[[str, str], bool]
 SortKey = Callable[[str, str], str | float]
 
