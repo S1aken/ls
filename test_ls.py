@@ -197,3 +197,11 @@ def test_format_name_color_uses_selected_color(tmp_path):
     )
 
     assert result == "\033[31mfolder\033[0m"
+
+def test_main_color_option_selects_color(tmp_path, capsys):
+    (tmp_path / "folder").mkdir()
+
+    main([str(tmp_path), "--style", "color", "--color", "red"])
+
+    captured = capsys.readouterr()
+    assert captured.out == "\033[31mfolder\033[0m\n"
