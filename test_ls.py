@@ -1,4 +1,4 @@
-from ls import list_dir, main 
+from ls import FilterPreset, list_dir, main 
 from typing import get_type_hints
 import pytest
 
@@ -45,3 +45,11 @@ def test_main_has_type_hints():
     hints = get_type_hints(main)
 
     assert hints == {"args": list[str] | None, "return": type(None)}
+
+def test_filter_preset_has_expected_values():
+    assert [preset.value for preset in FilterPreset] == [
+        "visible",
+        "all",
+        "files",
+        "dirs",
+    ]
