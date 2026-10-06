@@ -16,6 +16,11 @@ class SortPreset(str, Enum):
     SIZE = "size"
     DATE = "date"
 
+class StylePreset(str, Enum):
+    PLAIN = "plain"
+    COLOR = "color"
+    ICONS = "icons"
+
 
 Filter = Callable[[str, str], bool]
 SortKey = Callable[[str, str], str | float]
