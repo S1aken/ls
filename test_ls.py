@@ -153,3 +153,13 @@ def test_format_name_icons_adds_icon_by_type(tmp_path):
 
     assert file_result == "📄 a.txt"
     assert dir_result == "📁 folder"
+
+def test_format_name_color_paints_folders_blue(tmp_path):
+    (tmp_path / "a.txt").touch()
+    (tmp_path / "folder").mkdir()
+
+    file_result = format_name(str(tmp_path), "a.txt", StylePreset.COLOR)
+    dir_result = format_name(str(tmp_path), "folder", StylePreset.COLOR)
+
+    assert file_result == "a.txt"
+    assert dir_result == "\033[34mfolder\033[0m"
